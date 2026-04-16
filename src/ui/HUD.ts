@@ -35,19 +35,19 @@ export class HUD {
 
     this.progressBar = scene.add.graphics().setScrollFactor(0).setDepth(100);
 
-    this.attackBtn = scene.add.circle(w - 100, h - 120, 40, 0xff4444, 0.7)
+    this.attackBtn = scene.add.circle(w - 120, h - 140, 65, 0xff4444, 0.7)
       .setScrollFactor(0).setDepth(100).setInteractive();
-    this.attackBtnText = scene.add.text(w - 100, h - 120, '攻击', {
-      fontSize: '16px', color: '#fff', fontStyle: 'bold',
+    this.attackBtnText = scene.add.text(w - 120, h - 140, '攻击', {
+      fontSize: '22px', color: '#fff', fontStyle: 'bold',
     }).setOrigin(0.5).setScrollFactor(0).setDepth(101);
 
-    this.skillBtn = scene.add.circle(w - 190, h - 80, 35, 0x4488ff, 0.7)
+    this.skillBtn = scene.add.circle(w - 260, h - 100, 55, 0x4488ff, 0.7)
       .setScrollFactor(0).setDepth(100).setInteractive().setVisible(false);
-    this.skillBtnText = scene.add.text(w - 190, h - 80, '技能', {
-      fontSize: '14px', color: '#fff', fontStyle: 'bold',
+    this.skillBtnText = scene.add.text(w - 260, h - 100, '技能', {
+      fontSize: '20px', color: '#fff', fontStyle: 'bold',
     }).setOrigin(0.5).setScrollFactor(0).setDepth(101).setVisible(false);
-    this.skillCooldownText = scene.add.text(w - 190, h - 55, '', {
-      fontSize: '11px', color: '#aaa',
+    this.skillCooldownText = scene.add.text(w - 260, h - 40, '', {
+      fontSize: '14px', color: '#aaa',
     }).setOrigin(0.5).setScrollFactor(0).setDepth(101);
 
     this.attackBtn.on('pointerdown', () => this.onAttack?.());

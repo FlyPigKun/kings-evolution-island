@@ -9,7 +9,7 @@ export class VirtualJoystick {
   private pointer: Phaser.Input.Pointer | null = null;
   private baseX: number;
   private baseY: number;
-  private radius: number = 60;
+  private radius: number = 80;
 
   constructor(scene: Phaser.Scene) {
     this.scene = scene;
@@ -18,7 +18,7 @@ export class VirtualJoystick {
 
     this.base = scene.add.circle(this.baseX, this.baseY, this.radius, 0x000000, 0.3)
       .setScrollFactor(0).setDepth(100);
-    this.thumb = scene.add.circle(this.baseX, this.baseY, 25, 0xffffff, 0.5)
+    this.thumb = scene.add.circle(this.baseX, this.baseY, 35, 0xffffff, 0.5)
       .setScrollFactor(0).setDepth(101);
 
     scene.input.on('pointerdown', (p: Phaser.Input.Pointer) => {
