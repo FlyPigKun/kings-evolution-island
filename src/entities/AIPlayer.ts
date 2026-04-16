@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
 import { BaseEntity } from './BaseEntity';
-import { KILLS_TO_EVOLVE, EVOLUTION_CHAIN, HERO_OPTIONS, MAP_WIDTH, MAP_HEIGHT, getKillCredit } from '../config';
+import { KILLS_TO_EVOLVE, EVOLUTION_CHAIN, HERO_OPTIONS, MAP_WIDTH, MAP_HEIGHT, getKillCredit, AI_EVOLVE_RATE } from '../config';
 
 export class AIPlayer extends BaseEntity {
   target: BaseEntity | null = null;
@@ -41,7 +41,9 @@ export class AIPlayer extends BaseEntity {
     this.kills += credit;
     if (this.isHero) return;
 
-    const needed = KILLS_TO_EVOLVE[this.tier];
+    const needed = KILLS_TO_EVOLVE[this.tier] !== undefined
+      ? Math.ceil(KILLS_TO_EVOLVE[this.tier] / AI_EVOLVE_RATE)
+      : undefined;
     if (needed !== undefined && this.kills >= needed) {
       this.kills = 0;
       if (this.tier < EVOLUTION_CHAIN.length - 1) {

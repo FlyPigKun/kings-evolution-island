@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-import { GAME_WIDTH, GAME_HEIGHT, MAP_WIDTH, MAP_HEIGHT, AI_COUNT, NPC_COUNT_PER_TIER, NPC_SPAWN_ZONES, EVOLUTION_CHAIN, NPC_RESPAWN_MS, GAME_MAPS, GameMap } from '../config';
+import { GAME_WIDTH, GAME_HEIGHT, MAP_WIDTH, MAP_HEIGHT, AI_COUNT, NPC_COUNT_PER_TIER, NPC_SPAWN_ZONES, EVOLUTION_CHAIN, NPC_RESPAWN_MS, GAME_MAPS, GameMap, PLAYER_DAMAGE_MULT, PLAYER_ATTACK_CD, AI_DAMAGE_MULT, AI_ATTACK_CD } from '../config';
 import { Player } from '../entities/Player';
 import { AIPlayer } from '../entities/AIPlayer';
 import { NPC } from '../entities/NPC';
@@ -175,7 +175,7 @@ export class GameScene extends Phaser.Scene {
 
     if (closest) {
       const victimTier = closest.tier;
-      const killed = this.player.tryAttack(closest);
+      const killed = this.player.tryAttack(closest, PLAYER_DAMAGE_MULT, PLAYER_ATTACK_CD);
       if (killed) {
         this.player.onKill(victimTier);
         this.totalKills++;
@@ -366,7 +366,7 @@ export class GameScene extends Phaser.Scene {
         const canSee = !npcInBush[j] || (aiInB && this.inSameBush(ai.sprite.x, ai.sprite.y, npc.sprite.x, npc.sprite.y));
         if (canSee && ai.canAttack() && ai.distanceTo(npc) <= ai.range + 30) {
           const victimTier = npc.tier;
-          const killed = ai.tryAttack(npc);
+          const killed = ai.tryAttack(npc, AI_DAMAGE_MULT, AI_ATTACK_CD);
           if (killed) {
             ai.onKill(victimTier);
             this.scheduleNpcRespawn(npc);
@@ -380,7 +380,7 @@ export class GameScene extends Phaser.Scene {
         if (otherAi === ai || !otherAi.isAlive) continue;
         const canSee = !aiInBush[j] || (aiInB && this.inSameBush(ai.sprite.x, ai.sprite.y, otherAi.sprite.x, otherAi.sprite.y));
         if (canSee && ai.canAttack() && ai.tier > otherAi.tier && ai.distanceTo(otherAi) <= ai.range + 30) {
-          ai.tryAttack(otherAi);
+          ai.tryAttack(otherAi, AI_DAMAGE_MULT, AI_ATTACK_CD);
         }
       }
 
@@ -388,7 +388,7 @@ export class GameScene extends Phaser.Scene {
       if (this.player.isAlive && ai.canAttack() && ai.distanceTo(this.player) <= ai.range + 30) {
         const canSeePlayer = !this.playerInBush || (aiInB && this.inSameBush(ai.sprite.x, ai.sprite.y, this.player.sprite.x, this.player.sprite.y));
         if (canSeePlayer && ai.tier >= this.player.tier && !this.player.isHero) {
-          const killed = ai.tryAttack(this.player);
+          const killed = ai.tryAttack(this.player, AI_DAMAGE_MULT, AI_ATTACK_CD);
           if (killed) this.player.onDeath?.();
         }
       }

@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
 import { BaseEntity } from './BaseEntity';
-import { KILLS_TO_EVOLVE, EVOLUTION_CHAIN, HERO_OPTIONS, getKillCredit } from '../config';
+import { KILLS_TO_EVOLVE, EVOLUTION_CHAIN, HERO_OPTIONS, getKillCredit, PLAYER_DAMAGE_MULT, PLAYER_ATTACK_CD } from '../config';
 
 export class Player extends BaseEntity {
   isHero: boolean = false;
@@ -106,7 +106,7 @@ export class Player extends BaseEntity {
       if (!entity.isAlive || entity === this) continue;
       if (this.distanceTo(entity) <= skillRange) {
         const victimTier = entity.tier;
-        const killed = entity.takeDamage(skillDamage);
+        const killed = entity.takeDamage(Math.round(skillDamage * PLAYER_DAMAGE_MULT));
         if (killed) this.onKill(victimTier);
       }
     }

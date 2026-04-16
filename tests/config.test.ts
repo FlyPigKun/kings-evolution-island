@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { EVOLUTION_CHAIN, HERO_OPTIONS, KILLS_TO_EVOLVE, AI_COUNT, NPC_COUNT_PER_TIER, NPC_RESPAWN_MS, MAP_WIDTH, MAP_HEIGHT, GAME_WIDTH, GAME_HEIGHT, NPC_SPAWN_ZONES, getKillCredit } from '../src/config';
+import { EVOLUTION_CHAIN, HERO_OPTIONS, KILLS_TO_EVOLVE, AI_COUNT, NPC_COUNT_PER_TIER, NPC_RESPAWN_MS, MAP_WIDTH, MAP_HEIGHT, GAME_WIDTH, GAME_HEIGHT, NPC_SPAWN_ZONES, getKillCredit, PLAYER_DAMAGE_MULT, AI_DAMAGE_MULT, AI_EVOLVE_RATE, PLAYER_ATTACK_CD, AI_ATTACK_CD } from '../src/config';
 
 describe('Game Config', () => {
   describe('Evolution Chain', () => {
@@ -134,6 +134,20 @@ describe('Game Config', () => {
           expect(r.y + r.h).toBeLessThanOrEqual(MAP_HEIGHT);
         }
       }
+    });
+  });
+
+  describe('Balance: Player vs AI', () => {
+    it('player deals more damage than AI', () => {
+      expect(PLAYER_DAMAGE_MULT).toBeGreaterThan(AI_DAMAGE_MULT);
+    });
+
+    it('player attacks faster than AI', () => {
+      expect(PLAYER_ATTACK_CD).toBeLessThan(AI_ATTACK_CD);
+    });
+
+    it('AI evolves slower than player', () => {
+      expect(AI_EVOLVE_RATE).toBeLessThan(1);
     });
   });
 

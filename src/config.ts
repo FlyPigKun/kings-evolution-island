@@ -21,6 +21,13 @@ export const HERO_OPTIONS = [
 
 export const KILLS_TO_EVOLVE = [2, 3, 5, 7, 10, 15];
 
+// 玩家比 AI 更强（补偿手动操作劣势）
+export const PLAYER_DAMAGE_MULT = 1.5;     // 玩家伤害 x1.5
+export const PLAYER_ATTACK_CD = 400;       // 玩家攻击冷却 400ms
+export const AI_DAMAGE_MULT = 0.7;         // AI伤害 x0.7
+export const AI_ATTACK_CD = 800;           // AI攻击冷却 800ms
+export const AI_EVOLVE_RATE = 0.6;         // AI进化速度 x0.6（需要更多击杀）
+
 export const NPC_SPAWN_ZONES = [
   { tier: 0, regions: [{ x: 200, y: 200, w: 800, h: 600 }, { x: 2200, y: 1600, w: 800, h: 600 }] },
   { tier: 1, regions: [{ x: 400, y: 800, w: 600, h: 400 }, { x: 2000, y: 1200, w: 600, h: 400 }] },

@@ -100,11 +100,11 @@ export class BaseEntity {
     return this.isAlive && this.attackCooldown <= 0;
   }
 
-  tryAttack(target: BaseEntity): boolean {
+  tryAttack(target: BaseEntity, damageMult: number = 1, cooldown: number = 500): boolean {
     if (!this.canAttack() || !target.isAlive) return false;
     if (this.distanceTo(target) > this.range + (EVOLUTION_CHAIN[target.tier]?.size ?? 20)) return false;
-    this.attackCooldown = 500;
-    return target.takeDamage(this.attackPower);
+    this.attackCooldown = cooldown;
+    return target.takeDamage(Math.round(this.attackPower * damageMult));
   }
 
   update(delta: number) {
