@@ -68,6 +68,7 @@ export class GameScene extends Phaser.Scene {
             ? `英雄·${this.player.heroData?.name}`
             : EVOLUTION_CHAIN[this.player.tier].name,
           mapIndex: GAME_MAPS.indexOf(this.currentMap),
+          victory: false,
         });
       });
     };
@@ -422,5 +423,18 @@ export class GameScene extends Phaser.Scene {
     }
 
     this.minimap.update(this.player, this.ais, this.npcs);
+
+    // 胜利检测：所有AI死亡
+    if (this.player.isAlive && this.ais.every(ai => !ai.isAlive)) {
+      this.scene.start('GameOverScene', {
+        time: this.elapsed,
+        kills: this.totalKills,
+        maxTier: this.player.isHero
+          ? `英雄·${this.player.heroData?.name}`
+          : EVOLUTION_CHAIN[this.player.tier].name,
+        mapIndex: GAME_MAPS.indexOf(this.currentMap),
+        victory: true,
+      });
+    }
   }
 }
